@@ -9,6 +9,7 @@ module.exports.totalCostCalculation = function totalCostCalculation(list) {
   return false;
 };
 
+
 module.exports.calculationTotalPrice = function calculationTotalPrice(list) {
   const result = list.priceForOne * list.count;
   if (!Number.isNaN(result)) {

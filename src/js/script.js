@@ -52,6 +52,7 @@ function updateUI() {
       return false;
     });
   }
+
   for (let i = 0; i < arrayOfInputPrice.length; i += 1) {
     arrayOfInputPrice[i].addEventListener('keydown', (e) => {
       const { key } = e;
