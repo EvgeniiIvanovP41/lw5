@@ -29,7 +29,7 @@ function createObservableArray(array, callback) {
 }
 
 function updateUI() {
-  script.calculationTotalPrice(productsList);
+  //script.calculationTotalPrice(productsList);
   let totalCost = script.totalCostCalculation(productsList);
   const source = document.getElementById('store-template').innerHTML;
   const template = Handlebars.compile(source);
@@ -65,7 +65,10 @@ function updateUI() {
 }
 
 window.onload = function upload() {
-  productsList = createObservableObject(productsList, updateUI);
+  for (let i = 0; i < productsList.length; i++) {
+    script.calculationTotalPrice(productsList[i]);
+  }
   productsList = createObservableArray(productsList, updateUI);
+  console.log(productsList);
   updateUI();
 };
