@@ -7,29 +7,24 @@ let productsList = [
   { id: 2, name: 'Молоко', count: 100, priceForOne: 20, priceTotal: 0 },
   { id: 3, name: 'Сок', count: 200, priceForOne: 5, priceTotal: 0 },
 ];
-let listLength = productsList.length;
+//let listLength = productsList.length;
 
-function createObservableObject(array, update) {
+export function createObservableObject(array, callback) {
+  for (let i = 0; i < array.length; i++) {
+    array[i] = new Proxy(array[i], {
+      set(target, property, value) {
+        target[property] = value;
+        callback();
+        return true;
+      },
+    });
+  }
   return new Proxy(array, {
     set(target, property, value) {
-      if (property === 'count') {
-        target.count = value;
-      } else if (property === 'priceForOne') {
-        target.priceForOne = value;
-      } else if (property === 'priceTotal') {
-        target.priceTotal = value;
-        return true;
-      }
-      update();
+      target[property] = value;
+      callback();
       return true;
-    },
-  });
-}
-function createObservableArray(array) {
-  return new Proxy(array, {
-    set() {
-      return true;
-    },
+    }
   });
 }
 
@@ -69,10 +64,5 @@ function updateUI() {
   }
 }
 
-window.onload = function upload() {
-  for (let i = 0; i < listLength; i++) {
-    productsList[i] = createObservableObject(productsList[i], updateUI);
-  }
-  productsList = createObservableArray(productsList, updateUI);
-  updateUI();
-};
+productsList = createObservableArray(productsList, updateUI);
+updateUI();
