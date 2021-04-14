@@ -9,7 +9,7 @@ let productsList = [
 ];
 //let listLength = productsList.length;
 
-export function createObservableObject(array, callback) {
+function createObservableArray(array, callback) {
   for (let i = 0; i < array.length; i++) {
     array[i] = new Proxy(array[i], {
       set(target, property, value) {
@@ -64,5 +64,8 @@ function updateUI() {
   }
 }
 
-productsList = createObservableArray(productsList, updateUI);
-updateUI();
+window.onload = function upload() {
+  productsList = createObservableObject(productsList, updateUI);
+  productsList = createObservableArray(productsList, updateUI);
+  updateUI();
+};
