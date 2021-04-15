@@ -1,15 +1,14 @@
 /* eslint-disable no-undef */
 
-const script = require('./function');
+const functions = require('./functions');
 
-let productsList = [
+const productsList = [
   { id: 1, name: 'Торт', count: 400, priceForOne: 50, priceTotal: 0 },
   { id: 2, name: 'Молоко', count: 100, priceForOne: 20, priceTotal: 0 },
   { id: 3, name: 'Сок', count: 200, priceForOne: 5, priceTotal: 0 },
 ];
-//let listLength = productsList.length;
 
-function createObservableArray(array, callback) {
+export function createObservableArray(array, callback) {
   for (let i = 0; i < array.length; i++) {
     array[i] = new Proxy(array[i], {
       set(target, property, value) {
@@ -28,9 +27,8 @@ function createObservableArray(array, callback) {
   });
 }
 
-function updateUI() {
-  //script.calculationTotalPrice(productsList);
-  let totalCost = script.totalCostCalculation(productsList);
+export function updateUI() {
+  let totalCost = functions.totalCostCalculation(productsList);
   const source = document.getElementById('store-template').innerHTML;
   const template = Handlebars.compile(source);
   const html = template({ productsList, totalCost });
@@ -46,18 +44,17 @@ function updateUI() {
     arrayOfInputCount[i].addEventListener('keydown', (e) => {
       const { key } = e;
       if (key === 'Enter') {
-        script.setCount(productsList[i], arrayOfInputCount[i].value);
+        functions.setCount(productsList[i], arrayOfInputCount[i].value);
         return true;
       }
       return false;
     });
   }
-
   for (let i = 0; i < arrayOfInputPrice.length; i += 1) {
     arrayOfInputPrice[i].addEventListener('keydown', (e) => {
       const { key } = e;
       if (key === 'Enter') {
-        script.setPrice(productsList[i], arrayOfInputPrice[i].value);
+        functions.setPrice(productsList[i], arrayOfInputPrice[i].value);
         return true;
       }
       return false;
@@ -66,10 +63,8 @@ function updateUI() {
 }
 
 window.onload = function upload() {
-  for (let i = 0; i < productsList.length; i++) {
-    script.calculationTotalPrice(productsList[i]);
-  }
-  productsList = createObservableArray(productsList, updateUI);
-  console.log(productsList);
+  functions.calculationTotalPrice(productsList);
+  createObservableArray(productsList, updateUI);
+  console.log(productsList, "123");
   updateUI();
 };
