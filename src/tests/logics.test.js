@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const functions = require('../js/function');
+const functions = require('../js/functions');
 
 const productsList = [
   { id: 1, name: 'Торт', count: 400, priceForOne: 50, priceTotal: 0 },
@@ -48,9 +48,6 @@ test('Check setPrice', () => {
 test('Check calculationTotalPrice', () => {
   functions.calculationTotalPrice(productsList);
   expect(productsList[1].priceTotal).toEqual(2000);
-
-  expect(functions.calculationTotalPrice([])).toEqual(false);
-  expect(functions.calculationTotalPrice({})).toEqual(false);
 });
 
 test('Check totalCostCalculation', () => {
